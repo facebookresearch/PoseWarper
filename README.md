@@ -1,8 +1,8 @@
-# Learning Temporal Pose Estimation from Sparsely Labeled Videos (accepted to NeurIPS 2019)
+# Learning Temporal Pose Estimation from Sparsely Labeled Videos (NeurIPS 2019)
 
 ## Introduction
 This is an official pytorch implementation of [*Learning Temporal Pose Estimation from Sparsely Labeled Videos*](https://arxiv.org/abs/1906.04016). 
-In this work, we introduce the PoseWarper network  that reduces the need for densely labeled video data, while producing strong pose detection performance. Our approach is useful even when training videos are densely labeled, which we demonstrate by obtaining state-of-the-art pose detection results on PoseTrack17 and PoseTrack18 datasets. Our method is currently ranked first for multi-frame person pose estimation on the [*PoseTrack leaderboard*](https://posetrack.net/leaderboard.php).
+In this work, we introduce a framework that reduces the need for densely labeled video data, while producing strong pose detection performance. Our approach is useful even when training videos are densely labeled, which we demonstrate by obtaining state-of-the-art pose detection results on PoseTrack17 and PoseTrack18 datasets. Our method, called PoseWarper, is currently ranked first for multi-frame person pose estimation on the [*PoseTrack leaderboard*](https://posetrack.net/leaderboard.php).
 
 ## Results on PoseTrack
 ### Temporal Pose Aggregation during Inference
