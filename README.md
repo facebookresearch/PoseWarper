@@ -50,6 +50,9 @@ The code is developed using python 3.7, pytorch-1.1.0, and CUDA 10.0.1 on Ubuntu
    python setup.py install --user
    ```
 6. Clone this repo. Let's refer to it as ${POSEWARPER_ROOT}.
+   ```
+   git clone https://github.com/facebookresearch/PoseWarper.git
+   ```
 7. Compile external modules:
    ```
    cd ${POSEWARPER_ROOT}/lib
@@ -143,7 +146,7 @@ python tools/test.py \
 ```
 
 
-### Citation
+## Citation
 If you use our code or models in your research, please cite our NeurIPS 2019 paper:
 ```
 @inproceedings{NIPS2019_gberta,
@@ -151,9 +154,10 @@ title = {Learning Temporal Pose Estimation from Sparsely Labeled Videos},
 author = {Bertasius, Gedas and Feichtenhofer, Christoph, and Tran, Du and Shi, Jianbo, and Torresani, Lorenzo},
 booktitle = {Advances in Neural Information Processing Systems 33},
 year = {2019},
-}`
+}
+```
 
-### Acknowledgement
+## Acknowledgement
 
 Our PoseWarper implementation is built on top of [*Deep High Resolution Network implementation*](https://github.com/leoxiaobin/deep-high-resolution-net.pytorch). We thank the authors for releasing their code.
 
