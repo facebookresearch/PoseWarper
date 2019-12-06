@@ -67,8 +67,6 @@ The code is developed using python 3.7, pytorch-1.1.0, and CUDA 10.0.1 on Ubuntu
 
 We provide all the required JSON files, which have already been converted to COCO format. Evaluation is performed using the official PoseTrack evaluation code, [poseval](https://github.com/leonid-pishchulin/poseval), which uses [py-motmetrics](https://github.com/cheind/py-motmetrics) internally. We also provide required MAT/JSON files that are required for the evaluation.
 
-**For PoseTrack18 data**, please download the data from [PoseTrack download page](https://posetrack.net/users/download.php). Since the video frames are named properly, you only need to extract them into a directory of your choice (no need to rename the video frames). As with PoseTrack17, we provide all required JSON files for PoseTrack18 dataset as well.
-
 Your extracted PoseTrack17 images directory should look like this:
 ```
 ${POSETRACK17_IMG_DIR}
@@ -81,6 +79,8 @@ ${POSETRACK17_IMG_DIR}
 `-- mpii
 `-- mpii_5sec
 ```
+
+**For PoseTrack18 data**, please download the data from [PoseTrack download page](https://posetrack.net/users/download.php). Since the video frames are named properly, you only need to extract them into a directory of your choice (no need to rename the video frames). As with PoseTrack17, we provide all required JSON files for PoseTrack18 dataset as well.
 
 Your extracted PoseTrack18 images directory should look like this:
 ```
