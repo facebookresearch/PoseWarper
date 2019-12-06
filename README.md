@@ -2,7 +2,7 @@
 
 ## Introduction
 This is an official pytorch implementation of [*Learning Temporal Pose Estimation from Sparsely Labeled Videos*](https://arxiv.org/abs/1906.04016). 
-In this work, we introduce a framework that reduces the need for densely labeled video data, while producing strong pose detection performance. Our approach is useful even when training videos are densely labeled, which we demonstrate by obtaining state-of-the-art pose detection results on PoseTrack17 and PoseTrack18 datasets. Our method, called PoseWarper, is currently ranked first for multi-frame person pose estimation on [*PoseTrack leaderboard*](https://posetrack.net/leaderboard.php).
+In this work, we introduce a framework that reduces the need for densely labeled video data, while producing strong pose detection performance. Our approach is useful even when training videos are densely labeled, which we demonstrate by obtaining state-of-the-art pose detection results on PoseTrack17 and PoseTrack18 datasets. Our method, called PoseWarper, is currently ranked **first** for multi-frame person pose estimation on [*PoseTrack leaderboard*](https://posetrack.net/leaderboard.php).
 
 ## Results on the PoseTrack Dataset
 ### Temporal Pose Aggregation during Inference
@@ -60,7 +60,7 @@ The code is developed using python 3.7, pytorch-1.1.0, and CUDA 10.0.1 on Ubuntu
    cd ${POSEWARPER_ROOT}/lib/deform_conv
    python setup.py develop
    ```
-8. Download our pretrained models, and some data related files from [this link](https://www.dropbox.com/s/ygfy6r8nitoggfq/PoseWarper_supp_files.zip?dl=0) and extract it to ${POSEWARPER_SUPP_ROOT} directory.
+8. Download our pretrained models, and some supplementary data files from [this link](https://www.dropbox.com/s/ygfy6r8nitoggfq/PoseWarper_supp_files.zip?dl=0) and extract it to ${POSEWARPER_SUPP_ROOT} directory.
   
 ### Data preparation
 **For PoseTrack17 data**, we use a slightly modified version of the PoseTrack dataset where we rename the frames to follow `%08d` format, with first frame indexed as 1 (i.e. `00000001.jpg`). First, download the data from [PoseTrack download page](https://posetrack.net/users/download.php). Then, rename the frames for each video as described above using [this script](https://github.com/facebookresearch/DetectAndTrack/blob/master/tools/gen_posetrack_json.py). 
@@ -108,7 +108,7 @@ img_dir = '/path/to/posetrack17/renamed_images/'
 
 where working_dir=/path/to/PoseWarper/ should be the same as ${POSEWARPER_ROOT}, root_dir=/path/to/our/provided/supplementary/files/directory/ should be set to ${POSEWARPER_SUPP_ROOT}, and lastly img_dir=/path/to/posetrack17/renamed_images/ should point to ${POSETRACK17_IMG_DIR}.
 
-After that, you can run the following PoseTrack17 experiments.
+After that, you can run the following PoseTrack17 experiments. All the output files, including the trained models will be saved in ${POSEWARPER_SUPP_ROOT}/posetrack17_experiments/.
 
 #### Video Pose Propagation
  
@@ -155,7 +155,7 @@ img_dir = '/path/to/posetrack18/'
 
 where working_dir=/path/to/PoseWarper/ should be the same as ${POSEWARPER_ROOT}, root_dir=/path/to/our/provided/supplementary/files/directory/ should be set to ${POSEWARPER_SUPP_ROOT}, and lastly img_dir=/path/to/posetrack18/ should point to ${POSETRACK18_IMG_DIR}.
 
-After that, you can run the following PoseTrack18 experiment.
+After that, you can run the following PoseTrack18 experiment. All the output files, including the trained models will be saved in ${POSEWARPER_SUPP_ROOT}/posetrack18_experiments/.
 
 #### Comparison to State-of-the-Art
 
