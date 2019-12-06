@@ -99,7 +99,7 @@ First, you will need to modify [`scripts/posetrack17_helper.py`](scripts/posetra
 cur_python = '/path/to/your/python/binary'
 working_dir = '/path/to/PoseWarper/'
 
-### I/O Files
+### supplementary files
 root_dir = '/path/to/our/provided/supplementary/files/directory/'
 
 ### Directory with extracted and renamed frames
@@ -146,7 +146,7 @@ First, you will need to modify [`scripts/posetrack18_helper.py`](scripts/posetra
 cur_python = '/path/to/your/python/binary'
 working_dir = '/path/to/PoseWarper/'
 
-### I/O Files
+### supplementary files
 root_dir = '/path/to/our/provided/supplementary/files/directory/'
 
 ### Directory with extracted frames
