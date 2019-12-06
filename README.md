@@ -102,7 +102,7 @@ working_dir = '/path/to/PoseWarper/'
 ### supplementary files
 root_dir = '/path/to/our/provided/supplementary/files/directory/'
 
-### Directory with extracted and renamed frames
+### directory with extracted and renamed frames
 img_dir = '/path/to/posetrack17/renamed_images/'
 ```
 
@@ -149,7 +149,7 @@ working_dir = '/path/to/PoseWarper/'
 ### supplementary files
 root_dir = '/path/to/our/provided/supplementary/files/directory/'
 
-### Directory with extracted frames
+### directory with extracted frames
 img_dir = '/path/to/posetrack18/'
 ```
 
