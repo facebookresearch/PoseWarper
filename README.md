@@ -25,16 +25,16 @@ The code is developed using python 3.7, pytorch-1.1.0, and CUDA 10.0.1 on Ubuntu
 
 ## Quick start
 ### Installation
-1. Create a conda virtual environment and activate it.
+1. Create a conda virtual environment and activate it:
    ```
    conda create -n posewarper python=3.7 -y
    source activate posewarper
    ```
-2. Install pytorch v1.1.0.
+2. Install pytorch v1.1.0:
    ```
    conda install pytorch=1.1.0 torchvision -c pytorch
    ```
-3. Install mmcv.
+3. Install mmcv:
    ```
    pip install mmcv
    ```
@@ -49,7 +49,7 @@ The code is developed using python 3.7, pytorch-1.1.0, and CUDA 10.0.1 on Ubuntu
    cd $COCOAPI/PythonAPI
    python setup.py install --user
    ```
-6. Clone this repo. Let's refer to it as ${POSEWARPER_ROOT}.
+6. Clone this repo. Let's refer to it as ${POSEWARPER_ROOT}:
    ```
    git clone https://github.com/facebookresearch/PoseWarper.git
    ```
@@ -60,91 +60,105 @@ The code is developed using python 3.7, pytorch-1.1.0, and CUDA 10.0.1 on Ubuntu
    cd ${POSEWARPER_ROOT}/lib/deform_conv
    python setup.py develop
    ```
-8. Download pretrained models from our model zoo([GoogleDrive](https://drive.google.com/drive/folders/1hOTihvbyIxsm5ygDpbUuJ7O_tzv4oXjC?usp=sharing) or [OneDrive](https://1drv.ms/f/s!AhIXJn_J-blW231MH2krnmLq5kkQ))
-    ```
-   ${POSE_ROOT}
-    `-- models
-        `-- pytorch
-            |-- imagenet
-            |   |-- hrnet_w32-36af842e.pth
-            |   |-- hrnet_w48-8ef0771d.pth
-            |   |-- resnet50-19c8e357.pth
-            |   |-- resnet101-5d3b4d8f.pth
-            |   `-- resnet152-b121ed2d.pth
-            |-- pose_coco
-            |   |-- pose_hrnet_w32_256x192.pth
-            |   |-- pose_hrnet_w32_384x288.pth
-            |   |-- pose_hrnet_w48_256x192.pth
-            |   |-- pose_hrnet_w48_384x288.pth
-            |   |-- pose_resnet_101_256x192.pth
-            |   |-- pose_resnet_101_384x288.pth
-            |   |-- pose_resnet_152_256x192.pth
-            |   |-- pose_resnet_152_384x288.pth
-            |   |-- pose_resnet_50_256x192.pth
-            |   `-- pose_resnet_50_384x288.pth
-            `-- pose_mpii
-                |-- pose_hrnet_w32_256x256.pth
-                |-- pose_hrnet_w48_256x256.pth
-                |-- pose_resnet_101_256x256.pth
-                |-- pose_resnet_152_256x256.pth
-                `-- pose_resnet_50_256x256.pth
-
-   ```
+8. Download our pretrained models, and some data related files from [this link](https://www.dropbox.com/s/ygfy6r8nitoggfq/PoseWarper_supp_files.zip?dl=0) and extract it to ${POSEWARPER_SUPP_ROOT} directory.
   
 ### Data preparation
-**For MPII data**, please download from [MPII Human Pose Dataset](http://human-pose.mpi-inf.mpg.de/). The original annotation files are in matlab format. We have converted them into json format, you also need to download them from [OneDrive](https://1drv.ms/f/s!AhIXJn_J-blW00SqrairNetmeVu4) or [GoogleDrive](https://drive.google.com/drive/folders/1En_VqmStnsXMdldXA6qpqEyDQulnmS3a?usp=sharing).
-Extract them under {POSE_ROOT}/data, and make them look like this:
+**For PoseTrack17 data**, we use a slightly modified version of the PoseTrack dataset where we rename the frames to follow `%08d` format, with first frame indexed as 1 (i.e. `00000001.jpg`). First, download the data from [PoseTrack download page](https://posetrack.net/users/download.php). Then, rename the frames for each video as described above using [this script](https://github.com/facebookresearch/DetectAndTrack/blob/master/tools/gen_posetrack_json.py). We provide all the required JSON files in Step 8 of our previous instructions. The JSON files have already been converted to COCO format. Evaluation is performed using the official PoseTrack evaluation code, [poseval](https://github.com/leonid-pishchulin/poseval), which uses [py-motmetrics](https://github.com/cheind/py-motmetrics) internally. We also provide required MAT/JSON files that are required for the evaluation.
+
+**For PoseTrack18 data**, please download the data from [PoseTrack download page](https://posetrack.net/users/download.php). Since the video frames are already named properly, you only need to extract them into a directory of your choice (no need to rename the video frames). As with PoseTrack17, we provide all required JSON files for PoseTrack18 dataset as well.
+
+Your extracted PoseTrack17 images directory should look like this:
 ```
-${POSE_ROOT}
-|-- data
-`-- |-- mpii
-    `-- |-- annot
-        |   |-- gt_valid.mat
-        |   |-- test.json
-        |   |-- train.json
-        |   |-- trainval.json
-        |   `-- valid.json
-        `-- images
-            |-- 000001163.jpg
-            |-- 000003072.jpg
+${POSETRACK17_IMG_DIR}
+|-- bonn
+`-- bonn_5sec
+`-- bonn_mpii_test_5sec
+`-- bonn_mpii_test_v2_5sec
+`-- bonn_mpii_train_5sec
+`-- bonn_mpii_train_v2_5sec
+`-- mpii
+`-- mpii_5sec
 ```
 
-**For COCO data**, please download from [COCO download](http://cocodataset.org/#download), 2017 Train/Val is needed for COCO keypoints training and validation. We also provide person detection result of COCO val2017 and test-dev2017 to reproduce our multi-person pose estimation results. Please download from [OneDrive](https://1drv.ms/f/s!AhIXJn_J-blWzzDXoz5BeFl8sWM-) or [GoogleDrive](https://drive.google.com/drive/folders/1fRUDNUDxe9fjqcRZ2bnF_TKMlO0nB_dk?usp=sharing).
-Download and extract them under {POSE_ROOT}/data, and make them look like this:
+Your extracted PoseTrack18 images directory should look like this:
 ```
-${POSE_ROOT}
-|-- data
-`-- |-- coco
-    `-- |-- annotations
-        |   |-- person_keypoints_train2017.json
-        |   `-- person_keypoints_val2017.json
-        |-- person_detection_results
-        |   |-- COCO_val2017_detections_AP_H_56_person.json
-        |   |-- COCO_test-dev2017_detections_AP_H_609_person.json
-        `-- images
-            |-- train2017
-            |   |-- 000000000009.jpg
-            |   |-- 000000000025.jpg
-            |   |-- 000000000030.jpg
-            |   |-- ... 
-            `-- val2017
-                |-- 000000000139.jpg
-                |-- 000000000285.jpg
-                |-- 000000000632.jpg
-                |-- ... 
+${POSETRACK18_IMG_DIR}
+|--images
+`-- |-- test
+    `-- train
+    `-- val
 ```
 
-### Training and Testing
+### PoseTrack17 Experiments
 
-#### Testing on MPII dataset using model zoo's models([GoogleDrive](https://drive.google.com/drive/folders/1hOTihvbyIxsm5ygDpbUuJ7O_tzv4oXjC?usp=sharing) or [OneDrive](https://1drv.ms/f/s!AhIXJn_J-blW231MH2krnmLq5kkQ))
+First, you will need to modify [`scripts/posetrack17_helper.py`](scripts/posetrack17_helper.py) by setting appropriate path variables:
+```
+#### environment variables
+cur_python = '/path/to/your/python/binary'
+working_dir = '/path/to/PoseWarper/'
+
+### I/O Files
+root_dir = '/path/to/our/provided/supplementary/files/directory/'
+
+### Directory with extracted and renamed frames
+img_dir = '/path/to/posetrack17/renamed_images/'
+```
+
+where working_dir=/path/to/PoseWarper/ should be the same as ${POSEWARPER_ROOT}, root_dir=/path/to/our/provided/supplementary/files/directory/ should be set to ${POSEWARPER_SUPP_ROOT}, and lastly img_dir=/path/to/posetrack17/renamed_images/ should point to ${POSETRACK17_IMG_DIR}.
+
+
+#### Video Pose Propagation Experiments
  
-
 ```
-python tools/test.py \
-    --cfg experiments/mpii/hrnet/w32_256x256_adam_lr1e-3.yaml \
-    TEST.MODEL_FILE models/pytorch/pose_mpii/pose_hrnet_w32_256x256.pth
+cd ${POSEWARPER_ROOT}
+python scripts/posetrack17_helper.py 1
 ```
 
+#### Data Augmentation with PoseWarper Experiments
+
+```
+cd ${POSEWARPER_ROOT}
+python scripts/posetrack17_helper.py 2
+```
+
+#### Comparison to State-of-the-Art Experiments
+
+```
+cd ${POSEWARPER_ROOT}
+python scripts/posetrack17_helper.py 3
+```
+
+#### All of the above experiments
+
+```
+cd ${POSEWARPER_ROOT}
+python scripts/posetrack17_helper.py 0
+```
+
+
+### PoseTrack18 Experiments
+
+First, you will need to modify [`scripts/posetrack18_helper.py`](scripts/posetrack18_helper.py) by setting appropriate path variables:
+```
+#### environment variables
+cur_python = '/path/to/your/python/binary'
+working_dir = '/path/to/PoseWarper/'
+
+### I/O Files
+root_dir = '/path/to/our/provided/supplementary/files/directory/'
+
+### Directory with extracted frames
+img_dir = '/path/to/posetrack18/'
+```
+
+where working_dir=/path/to/PoseWarper/ should be the same as ${POSEWARPER_ROOT}, root_dir=/path/to/our/provided/supplementary/files/directory/ should be set to ${POSEWARPER_SUPP_ROOT}, and lastly img_dir=/path/to/posetrack18/ should point to ${POSETRACK18_IMG_DIR}.
+
+#### Comparison to State-of-the-Art Experiments
+
+```
+cd ${POSEWARPER_ROOT}
+python scripts/posetrack18_helper.py
+```
 
 ## Citation
 If you use our code or models in your research, please cite our NeurIPS 2019 paper:
