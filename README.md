@@ -108,6 +108,7 @@ img_dir = '/path/to/posetrack17/renamed_images/'
 
 where working_dir=/path/to/PoseWarper/ should be the same as ${POSEWARPER_ROOT}, root_dir=/path/to/our/provided/supplementary/files/directory/ should be set to ${POSEWARPER_SUPP_ROOT}, and lastly img_dir=/path/to/posetrack17/renamed_images/ should point to ${POSETRACK17_IMG_DIR}.
 
+After that, you can run our PoseTrack17 experiments.
 
 #### Video Pose Propagation Experiments
  
@@ -154,6 +155,8 @@ img_dir = '/path/to/posetrack18/'
 ```
 
 where working_dir=/path/to/PoseWarper/ should be the same as ${POSEWARPER_ROOT}, root_dir=/path/to/our/provided/supplementary/files/directory/ should be set to ${POSEWARPER_SUPP_ROOT}, and lastly img_dir=/path/to/posetrack18/ should point to ${POSETRACK18_IMG_DIR}.
+
+After that, you can run our PoseTrack18 experiments.
 
 #### Comparison to State-of-the-Art Experiments
 
