@@ -110,22 +110,21 @@ where working_dir=/path/to/PoseWarper/ should be the same as ${POSEWARPER_ROOT},
 
 After that, you can run the following PoseTrack17 experiments.
 
-#### Video Pose Propagation Experiments
+#### Video Pose Propagation
  
 ```
 cd ${POSEWARPER_ROOT}
 python scripts/posetrack17_helper.py 1
 ```
 
-#### Data Augmentation with PoseWarper Experiments
+#### Data Augmentation with PoseWarper
 
 ```
 cd ${POSEWARPER_ROOT}
 python scripts/posetrack17_helper.py 2
 ```
 
-#### Comparison to State-of-the-Art Experiments
-
+#### Comparison to State-of-the-Art
 ```
 cd ${POSEWARPER_ROOT}
 python scripts/posetrack17_helper.py 3
@@ -158,7 +157,7 @@ where working_dir=/path/to/PoseWarper/ should be the same as ${POSEWARPER_ROOT},
 
 After that, you can run the following PoseTrack18 experiment.
 
-#### Comparison to State-of-the-Art Experiments
+#### Comparison to State-of-the-Art
 
 ```
 cd ${POSEWARPER_ROOT}
