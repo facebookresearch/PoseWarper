@@ -23,6 +23,9 @@ In this work, we introduce a framework that reduces the need for densely labeled
 ## Environment
 The code is developed using python 3.7, pytorch-1.1.0, and CUDA 10.0.1 on Ubuntu 18.04. For our experiments, we used 8 NVIDIA P100 GPUs.
 
+## License
+PoseWarper is released under the Apache 2.0 license.
+
 ## Quick start
 ### Installation
 1. Create a conda virtual environment and activate it:
