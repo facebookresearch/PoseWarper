@@ -2,9 +2,9 @@
 
 ## Introduction
 This is an official pytorch implementation of [*Learning Temporal Pose Estimation from Sparsely Labeled Videos*](https://arxiv.org/abs/1906.04016). 
-In this work, we introduce a framework that reduces the need for densely labeled video data, while producing strong pose detection performance. Our approach is useful even when training videos are densely labeled, which we demonstrate by obtaining state-of-the-art pose detection results on PoseTrack17 and PoseTrack18 datasets. Our method, called PoseWarper, is currently ranked first for multi-frame person pose estimation on the [*PoseTrack leaderboard*](https://posetrack.net/leaderboard.php).
+In this work, we introduce a framework that reduces the need for densely labeled video data, while producing strong pose detection performance. Our approach is useful even when training videos are densely labeled, which we demonstrate by obtaining state-of-the-art pose detection results on PoseTrack17 and PoseTrack18 datasets. Our method, called PoseWarper, is currently ranked first for multi-frame person pose estimation on [*PoseTrack leaderboard*](https://posetrack.net/leaderboard.php).
 
-## Results on PoseTrack
+## Results on the PoseTrack Dataset
 ### Temporal Pose Aggregation during Inference
 | Method       |  Dataset Split | Head | Shoulder | Elbow | Wrist |  Hip | Knee | Ankle | Mean |
 |--------------|--------------------|------|----------|-------|-------|------|------|-------|------|
@@ -13,68 +13,52 @@ In this work, we introduce a framework that reduces the need for densely labeled
 | PoseWarper | val18  | 79.9 |     86.3 |  82.4 |  77.5 | 79.8 | 78.8 |  73.2 | 79.7 |
 | PoseWarper | test18 | 78.9 |     84.4 |  80.9 |  76.8 | 75.6 | 77.5 |  71.8 | 78.0 |
 
-### Video Pose Propagation
+### Video Pose Propagation on PoseTrack17
 | Method                     | Head | Shoulder | Elbow | Wrist |  Hip | Knee | Ankle | Mean |
 |--------------------|------|----------|-------|-------|------|------|-------|------|
 | Pseudo-labeling w/HRNet   | 79.1 |     86.5 |  81.4 |  74.7 | 81.4 | 79.4 |  72.3 | 79.3 |
 | FlowNet2 Propagation      | 82.7 |     91.0 |  83.8 |  78.4 | 89.7 | 83.6 |  78.1 | 83.8 |
 | PoseWarper                | 86.0 |     92.7 |  89.5 |  86.0 | 91.5 | 89.1 |  86.6 | 88.7 |
 
-
-
 ## Environment
-The code is developed using python 3.6 on Ubuntu 16.04. NVIDIA GPUs are needed. The code is developed and tested using 4 NVIDIA P100 GPU cards. Other platforms or GPU cards are not fully tested.
+The code is developed using python 3.7, pytorch-1.1.0, and CUDA 10.0.1 on Ubuntu 18.04. For our experiments, we used 8 NVIDIA P100 GPUs.
 
 ## Quick start
 ### Installation
-1. Install pytorch >= v1.0.0 following [official instruction](https://pytorch.org/).
-   **Note that if you use pytorch's version < v1.0.0, you should following the instruction at <https://github.com/Microsoft/human-pose-estimation.pytorch> to disable cudnn's implementations of BatchNorm layer. We encourage you to use higher pytorch's version(>=v1.0.0)**
-2. Clone this repo, and we'll call the directory that you cloned as ${POSE_ROOT}.
-3. Install dependencies:
+1. Create a conda virtual environment and activate it.
+   ```
+   conda create -n posewarper python=3.7 -y
+   source activate posewarper
+   ```
+2. Install pytorch v1.1.0.
+   ```
+   conda install pytorch=1.1.0 torchvision -c pytorch
+   ```
+3. Install mmcv.
+   ```
+   pip install mmcv
+   ```
+4. Install other dependencies:
    ```
    pip install -r requirements.txt
-   ```
-4. Make libs:
-   ```
-   cd ${POSE_ROOT}/lib
-   make
    ```
 5. Install [COCOAPI](https://github.com/cocodataset/cocoapi):
    ```
    # COCOAPI=/path/to/clone/cocoapi
    git clone https://github.com/cocodataset/cocoapi.git $COCOAPI
    cd $COCOAPI/PythonAPI
-   # Install into global site-packages
-   make install
-   # Alternatively, if you do not have permissions or prefer
-   # not to install the COCO API into global site-packages
-   python3 setup.py install --user
+   python setup.py install --user
    ```
-   Note that instructions like # COCOAPI=/path/to/install/cocoapi indicate that you should pick a path where you'd like to have the software cloned and then set an environment variable (COCOAPI in this case) accordingly.
-4. Init output(training model output directory) and log(tensorboard log directory) directory:
-
+6. Clone this repo. Let's refer to it as ${POSEWARPER_ROOT}.
+7. Compile external modules:
    ```
-   mkdir output 
-   mkdir log
+   cd ${POSEWARPER_ROOT}/lib
+   make
+   cd ${POSEWARPER_ROOT}/lib/deform_conv
+   python setup.py develop
    ```
-
-   Your directory tree should look like this:
-
-   ```
-   ${POSE_ROOT}
-   ├── data
-   ├── experiments
-   ├── lib
-   ├── log
-   ├── models
-   ├── output
-   ├── tools 
-   ├── README.md
-   └── requirements.txt
-   ```
-
-6. Download pretrained models from our model zoo([GoogleDrive](https://drive.google.com/drive/folders/1hOTihvbyIxsm5ygDpbUuJ7O_tzv4oXjC?usp=sharing) or [OneDrive](https://1drv.ms/f/s!AhIXJn_J-blW231MH2krnmLq5kkQ))
-   ```
+8. Download pretrained models from our model zoo([GoogleDrive](https://drive.google.com/drive/folders/1hOTihvbyIxsm5ygDpbUuJ7O_tzv4oXjC?usp=sharing) or [OneDrive](https://1drv.ms/f/s!AhIXJn_J-blW231MH2krnmLq5kkQ))
+    ```
    ${POSE_ROOT}
     `-- models
         `-- pytorch
@@ -103,7 +87,7 @@ The code is developed using python 3.6 on Ubuntu 16.04. NVIDIA GPUs are needed. 
                 `-- pose_resnet_50_256x256.pth
 
    ```
-   
+  
 ### Data preparation
 **For MPII data**, please download from [MPII Human Pose Dataset](http://human-pose.mpi-inf.mpg.de/). The original annotation files are in matlab format. We have converted them into json format, you also need to download them from [OneDrive](https://1drv.ms/f/s!AhIXJn_J-blW00SqrairNetmeVu4) or [GoogleDrive](https://drive.google.com/drive/folders/1En_VqmStnsXMdldXA6qpqEyDQulnmS3a?usp=sharing).
 Extract them under {POSE_ROOT}/data, and make them look like this:
@@ -158,48 +142,18 @@ python tools/test.py \
     TEST.MODEL_FILE models/pytorch/pose_mpii/pose_hrnet_w32_256x256.pth
 ```
 
-#### Training on MPII dataset
-
-```
-python tools/train.py \
-    --cfg experiments/mpii/hrnet/w32_256x256_adam_lr1e-3.yaml
-```
-
-#### Testing on COCO val2017 dataset using model zoo's models([GoogleDrive](https://drive.google.com/drive/folders/1hOTihvbyIxsm5ygDpbUuJ7O_tzv4oXjC?usp=sharing) or [OneDrive](https://1drv.ms/f/s!AhIXJn_J-blW231MH2krnmLq5kkQ))
- 
-
-```
-python tools/test.py \
-    --cfg experiments/coco/hrnet/w32_256x192_adam_lr1e-3.yaml \
-    TEST.MODEL_FILE models/pytorch/pose_coco/pose_hrnet_w32_256x192.pth \
-    TEST.USE_GT_BBOX False
-```
-
-#### Training on COCO train2017 dataset
-
-```
-python tools/train.py \
-    --cfg experiments/coco/hrnet/w32_256x192_adam_lr1e-3.yaml \
-```
-
-
-### Other applications
-Many other dense prediction tasks, such as segmentation, face alignment and object detection, etc. have been benefited by HRNet. More information can be found at [Deep High-Resolution Representation Learning](https://jingdongwang2017.github.io/Projects/HRNet/).
 
 ### Citation
-If you use our code or models in your research, please cite with:
+If you use our code or models in your research, please cite our NeurIPS 2019 paper:
 ```
-@inproceedings{SunXLWang2019,
-  title={Deep High-Resolution Representation Learning for Human Pose Estimation},
-  author={Ke Sun, Bin Xiao, Dong Liu, and Jingdong Wang},
-  booktitle={CVPR},
-  year={2019}
-}
+@inproceedings{NIPS2019_gberta,
+title = {Learning Temporal Pose Estimation from Sparsely Labeled Videos},
+author = {Bertasius, Gedas and Feichtenhofer, Christoph, and Tran, Du and Shi, Jianbo, and Torresani, Lorenzo},
+booktitle = {Advances in Neural Information Processing Systems 33},
+year = {2019},
+}`
 
-@inproceedings{xiao2018simple,
-    author={Xiao, Bin and Wu, Haiping and Wei, Yichen},
-    title={Simple Baselines for Human Pose Estimation and Tracking},
-    booktitle = {European Conference on Computer Vision (ECCV)},
-    year = {2018}
-}
-```
+### Acknowledgement
+
+Our PoseWarper implementation is built on top of [*Deep High Resolution Network implementation*](https://github.com/leoxiaobin/deep-high-resolution-net.pytorch). We thank the authors for releasing their code.
+
