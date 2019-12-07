@@ -563,12 +563,12 @@ class PoseHighResolutionNet(nn.Module):
                if self.warping_reverse:
                   ref_x = x[:,0:3,:,:]
                   sup_x = x[:,3:6,:,:]
+                  gt_x_up = x[:,6:,:,:]
 
                   x = torch.cat((ref_x, sup_x), 0)
 
-#                  ## downscaling ground truth
-#                  gt_x_up = x[:,6:,:,:]
-#                  gt_x = self.gt_down_op(gt_x_up)
+                  ## downscaling ground truth
+                  gt_x = self.gt_down_op(gt_x_up)
                else:
                   ref_x = x[:,0:3,:,:]
                   sup_x = x[:,3:,:,:]
@@ -654,16 +654,16 @@ class PoseHighResolutionNet(nn.Module):
 
            off2 = self.offsets2(off_feats_cuda)
            warped_x2 = self.deform_conv2(sup_x_cuda, off2)
- 
+
            off3 = self.offsets3(off_feats_cuda)
            warped_x3 = self.deform_conv3(sup_x_cuda, off3)
- 
+
            off4 = self.offsets4(off_feats_cuda)
            warped_x4 = self.deform_conv4(sup_x_cuda, off4)
- 
+
            off5 = self.offsets5(off_feats_cuda)
            warped_x5 = self.deform_conv5(sup_x_cuda, off5)
- 
+
            x = 0.2 * (warped_x1 + warped_x2 + warped_x3 + warped_x4 + warped_x5)
 
            #### backwards
@@ -676,16 +676,16 @@ class PoseHighResolutionNet(nn.Module):
 
               off2 = self.offsets2(off_feats_cuda)
               warped_x2 = self.deform_conv2(sup_x_cuda, off2)
- 
+
               off3 = self.offsets3(off_feats_cuda)
               warped_x3 = self.deform_conv3(sup_x_cuda, off3)
- 
+
               off4 = self.offsets4(off_feats_cuda)
               warped_x4 = self.deform_conv4(sup_x_cuda, off4)
- 
+
               off5 = self.offsets5(off_feats_cuda)
               warped_x5 = self.deform_conv5(sup_x_cuda, off5)
- 
+
               x = 0.2 * (warped_x1 + warped_x2 + warped_x3 + warped_x4 + warped_x5)
         ##############3
 
