@@ -554,10 +554,11 @@ class PoseHighResolutionNet(nn.Module):
 
                ref_x = x[:,0:3,:,:]
                sup_x = x[:,3:6,:,:]
+               gt_x_up = x[:,6:,:,:]
+
                x = torch.cat((ref_x, sup_x), 0)
 
                ## downscaling GT
-               gt_x_up = x[:,6:,:,:]
                gt_x = self.gt_down_op(gt_x_up)
            else:
                if self.warping_reverse:
