@@ -541,9 +541,9 @@ class Image:
 )
 def cli(in_fp, out_fp="converted"):
     """Convert between PoseTrack18 and PoseTrack17 format."""
-    LOGGER.info("Converting `%s` to `%s`...", in_fp, out_fp)
+    #LOGGER.info("Converting `%s` to `%s`...", in_fp, out_fp)
     if in_fp.endswith(".zip") and path.isfile(in_fp):
-        LOGGER.info("Unzipping...")
+        #LOGGER.info("Unzipping...")
         import zipfile
         import tempfile
 
@@ -551,7 +551,7 @@ def cli(in_fp, out_fp="converted"):
         with zipfile.ZipFile(in_fp, "r") as zip_ref:
             zip_ref.extractall(unzip_dir)
         in_fp = unzip_dir
-        LOGGER.info("Done.")
+        #LOGGER.info("Done.")
     else:
         unzip_dir = None
     if path.isfile(in_fp):
@@ -564,7 +564,7 @@ def cli(in_fp, out_fp="converted"):
                 if track_fp.endswith(".json")
             ]
         )
-    LOGGER.info("Identified %d track files.", len(track_fps))
+    #LOGGER.info("Identified %d track files.", len(track_fps))
     assert path.isfile(track_fps[0]), "`%s` is not a file!" % (track_fps[0])
     with open(track_fps[0], "r") as inf:
         first_track = json.load(inf)
@@ -572,13 +572,13 @@ def cli(in_fp, out_fp="converted"):
     old_to_new = False
     if "annolist" in first_track.keys():
         old_to_new = True
-        LOGGER.info("Detected PoseTrack17 format. Converting to 2018...")
+        #LOGGER.info("Detected PoseTrack17 format. Converting to 2018...")
     else:
         assert "images" in first_track.keys(), "Unknown image format. :("
-        LOGGER.info("Detected PoseTrack18 format. Converting to 2017...")
+        #LOGGER.info("Detected PoseTrack18 format. Converting to 2017...")
 
     videos = []
-    LOGGER.info("Parsing data...")
+    #LOGGER.info("Parsing data...")
     for track_fp in tqdm.tqdm(track_fps):
         with open(track_fp, "r") as inf:
             track_data = json.load(inf)
@@ -586,7 +586,7 @@ def cli(in_fp, out_fp="converted"):
             videos.extend(Video.from_old(track_data))
         else:
             videos.extend(Video.from_new(track_data))
-    LOGGER.info("Writing data...")
+    #LOGGER.info("Writing data...")
     if not path.exists(out_fp):
         os.mkdir(out_fp)
     for video in tqdm.tqdm(videos):
@@ -600,19 +600,19 @@ def cli(in_fp, out_fp="converted"):
         with open(target_fp, "w") as outf:
             json.dump(converted_json, outf, default=json_default)
     if unzip_dir:
-        LOGGER.debug("Deleting temporary directory...")
+        #LOGGER.debug("Deleting temporary directory...")
         os.unlink(unzip_dir)
-    LOGGER.info("Done.")
+    #LOGGER.info("Done.")
 
 def convert_videos(track_data):
     """Convert between PoseTrack18 and PoseTrack17 format."""
     if "annolist" in track_data.keys():
         old_to_new = True
-        LOGGER.info("Detected PoseTrack17 format. Converting to 2018...")
+        #LOGGER.info("Detected PoseTrack17 format. Converting to 2018...")
     else:
         old_to_new = False
         assert "images" in track_data.keys(), "Unknown image format. :("
-        LOGGER.info("Detected PoseTrack18 format. Converting to 2017...")
+        #LOGGER.info("Detected PoseTrack18 format. Converting to 2017...")
 
     if (old_to_new):
         videos = Video.from_old(track_data)
