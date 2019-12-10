@@ -167,6 +167,10 @@ After that, you can run the following PoseTrack18 experiment. All the output fil
 cd ${POSEWARPER_ROOT}
 python scripts/posetrack18_helper.py
 ```
+## Changing the Number of GPUs
+Our experiments were conducted using 8 NVIDIA P100 GPUs. If you want to use a smaller number of GPUs, you need to modify *.yaml configuration files in [`experiments/posetrack/hrnet/`](experiments/posetrack/hrnet/). Specifically, you need to modify the GPUS entry in each configuration file. Depending on how many GPUs are used during training, you might also need to change TRAIN.BATCH_SIZE_PER_GPU entry in the configuration files. 
+
+In addition to using 8 GPUs, we also tried using 4 GPUs for our experiments. Using a 4 GPU setup, we obtained similar results as with 8 GPUs without changing TRAIN.BATCH_SIZE_PER_GPU. However, note that the experiments will run substantially slower when smaller number of GPUs is used.
 
 ## Citation
 If you use our code or models in your research, please cite our NeurIPS 2019 paper:
