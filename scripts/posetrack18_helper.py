@@ -23,7 +23,8 @@ working_dir = '/path/to/PoseWarper/'
 root_dir = '/path/to/our/provided/supplementary/files/directory/'
 
 ### directory with extracted and renamed frames
-img_dir = '/path/to/posetrack18/renamed_images/'
+data_dir = '/path/to/posetrack18/data/'
+
 
 ### print frequency
 PF = 5000
