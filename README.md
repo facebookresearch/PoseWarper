@@ -41,20 +41,21 @@ PoseWarper is released under the Apache 2.0 license.
    ```
    pip install mmcv
    ```
-4. Install other dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-5. Install [COCOAPI](https://github.com/cocodataset/cocoapi):
+4. Install [COCOAPI](https://github.com/cocodataset/cocoapi):
    ```
    # COCOAPI=/path/to/clone/cocoapi
    git clone https://github.com/cocodataset/cocoapi.git $COCOAPI
    cd $COCOAPI/PythonAPI
    python setup.py install --user
    ```
-6. Clone this repo. Let's refer to it as ${POSEWARPER_ROOT}:
+5. Clone this repo. Let's refer to it as ${POSEWARPER_ROOT}:
    ```
    git clone https://github.com/facebookresearch/PoseWarper.git
+   ```
+6. Install other dependencies:
+   ```
+   cd ${POSEWARPER_ROOT}
+   pip install -r requirements.txt
    ```
 7. Compile external modules:
    ```
