@@ -34,7 +34,7 @@ if experiment == 0: ### run all experiments
 elif experiment == 1: ## video pose propagation experiment
     rs = 0
     rf = 1
-elif experiment == 2: ## Data Augmentation via PoseWarper and Spatiotemporal Pose Aggregation during inference
+elif experiment == 2: ## Data Augmentation via PoseWarper and Temporal Pose Aggregation during inference
     rs = 1
     rf = 3
 elif experiment == 3: ## state-of-the-art expeirments using full PoseTrack17 data
@@ -70,10 +70,10 @@ for jj in range(2): ## train / inference
   if rr == 0: ## video pose propagation
     V_list = [250]
     N_list = [5]
-  elif rr == 1: ### data augmentation via posewarper and Spatiotemporal Pose Aggregation during Inference
+  elif rr == 1: ### data augmentation via posewarper and Temporal Pose Aggregation during Inference
     V_list = [100, 175, 250]
     N_list = [1]
-  elif rr == 2: ### data augmentation via posewarper and Spatiotemporal Pose Aggregation during Inference
+  elif rr == 2: ### data augmentation via posewarper and Temporal Pose Aggregation during Inference
     V_list = [50]
     N_list = [1, 2, 4]
   else: ## state-of-the-art experiments
@@ -142,14 +142,14 @@ for jj in range(2): ## train / inference
            command = cur_python+' '+working_dir+'/tools/train.py --cfg experiments/posetrack/hrnet/w48_384x288_adam_lr1e-4_PoseWarper_train.yaml OUTPUT_DIR '+out_dir+' LOG_DIR '+log_dir+' DATASET.NUM_LABELED_VIDEOS '+str(V)+' DATASET.NUM_LABELED_FRAMES_PER_VIDEO '+str(N)+ ' DATASET.JSON_DIR '+json_dir +' DATASET.IMG_DIR '+img_dir +' MODEL.PRETRAINED ' +pretrained_model+ ' MODEL.EVALUATE False PRINT_FREQ '+str(PF)+epoch_sfx
            os.system(command)
 
-        #### spatiotemporal pose aggregation
+        #### temporal pose aggregation
         annot_sfx = 'val_withJson/val/'
         sfx = 'posetrack/pose_hrnet/w48_384x288_adam_lr1e-4_PoseWarper_train/final_state.pth'
         pose_warper_model_path = out_dir + sfx
         if rr != 0:
          if jj == 1:
-           experiment_name = '"Spatiotemporal Pose Aggregation via PoseWarper (# of Labeled Videos = '+V_str + '; # of Labeled Frames Per Video = '+N_str+')"'
-           command = cur_python+' '+working_dir+'/tools/test.py --cfg experiments/posetrack/hrnet/w48_384x288_adam_lr1e-4_PoseWarper_inference_spatiotemporal_pose_aggregation.yaml OUTPUT_DIR '+out_dir+' LOG_DIR '+log_dir+' DATASET.NUM_LABELED_VIDEOS '+str(V)+' DATASET.NUM_LABELED_FRAMES_PER_VIDEO '+str(N)+' DATASET.JSON_DIR '+json_dir +' DATASET.IMG_DIR '+img_dir+ ' TEST.MODEL_FILE ' +pose_warper_model_path+' TEST.COCO_BBOX_FILE '+precomputed_boxes_file+' POSETRACK_ANNOT_DIR '+annot_dir+annot_sfx +' TEST.USE_GT_BBOX False PRINT_FREQ '+str(PF)+' EXPERIMENT_NAME '+experiment_name
+           experiment_name = '"Temporal Pose Aggregation via PoseWarper (# of Labeled Videos = '+V_str + '; # of Labeled Frames Per Video = '+N_str+')"'
+           command = cur_python+' '+working_dir+'/tools/test.py --cfg experiments/posetrack/hrnet/w48_384x288_adam_lr1e-4_PoseWarper_inference_temporal_pose_aggregation.yaml OUTPUT_DIR '+out_dir+' LOG_DIR '+log_dir+' DATASET.NUM_LABELED_VIDEOS '+str(V)+' DATASET.NUM_LABELED_FRAMES_PER_VIDEO '+str(N)+' DATASET.JSON_DIR '+json_dir +' DATASET.IMG_DIR '+img_dir+ ' TEST.MODEL_FILE ' +pose_warper_model_path+' TEST.COCO_BBOX_FILE '+precomputed_boxes_file+' POSETRACK_ANNOT_DIR '+annot_dir+annot_sfx +' TEST.USE_GT_BBOX False PRINT_FREQ '+str(PF)+' EXPERIMENT_NAME '+experiment_name
            os.system(command)
            #print(command)
            #print(xy)
